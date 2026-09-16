@@ -1,0 +1,148 @@
+@import "tailwindcss";
+
+@theme {
+  /* Warm café palette — no gold, no purple, no neon */
+  --color-cream: #f7f1e5;
+  --color-ivory: #fdf9f0;
+  --color-paper: #efe5d3;
+  --color-espresso: #2b1d14;
+  --color-charcoal: #3b3128;
+  --color-coffee: #6b4a34;
+  --color-cocoa: #8a6347;
+  --color-latte: #c9a87f;
+  --color-terracotta: #c4663e;
+  --color-clay: #b45430;
+  --color-sage: #8a9670;
+
+  --font-display: "Playfair Display", "Georgia", serif;
+  --font-sans: "Manrope", ui-sans-serif, system-ui, -apple-system, sans-serif;
+
+  --animate-marquee: marquee 36s linear infinite;
+  --animate-marquee-slow: marquee 52s linear infinite;
+  --animate-spin-slow: spin-slow 14s linear infinite;
+
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  @keyframes spin-slow {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+}
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    background-color: var(--color-cream);
+    color: var(--color-espresso);
+    font-family: var(--font-sans);
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background-color: var(--color-terracotta);
+    color: var(--color-ivory);
+  }
+
+  img {
+    user-select: none;
+  }
+
+  /* Respect reduced motion for the CSS marquee only. */
+  @media (prefers-reduced-motion: reduce) {
+    .animate-marquee,
+    .animate-marquee-slow,
+    .animate-spin-slow {
+      animation: none;
+    }
+  }
+}
+
+@layer utilities {
+  .container-cafe {
+    margin-inline: auto;
+    width: 100%;
+    max-width: 80rem;
+    padding-inline: 1.25rem;
+  }
+
+  @media (min-width: 768px) {
+    .container-cafe {
+      padding-inline: 2.5rem;
+    }
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Animated link underline */
+  .link-underline {
+    position: relative;
+  }
+  .link-underline::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -3px;
+    height: 1px;
+    width: 100%;
+    background-color: currentColor;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .link-underline:hover::after,
+  .link-underline:focus-visible::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+
+  /* Outlined display text */
+  .text-outline {
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(43, 29, 20, 0.22);
+  }
+}
+
+@layer components {
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: 1px solid rgba(43, 29, 20, 0.18);
+    border-radius: 999px;
+    padding: 0.5rem 1rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--color-espresso);
+    background: transparent;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    cursor: pointer;
+  }
+  .chip:hover {
+    border-color: var(--color-terracotta);
+    color: var(--color-clay);
+  }
+  .chip-active {
+    background: var(--color-espresso);
+    border-color: var(--color-espresso);
+    color: var(--color-ivory);
+  }
+  .chip-active:hover {
+    color: var(--color-ivory);
+    border-color: var(--color-espresso);
+  }
+}
